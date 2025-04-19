@@ -8,6 +8,7 @@ import subprocess
 import sys
 import datetime
 import logging
+import requests
 import socket
 
 # 🎛️ Function to install required packages
