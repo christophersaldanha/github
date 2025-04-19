@@ -41,6 +41,13 @@ install_requirements()
 TOKEN = '7119517186:AAGkpy6jd4_06kwIw7kzoF393iz-PLeFjLo'
 bot = telebot.TeleBot(TOKEN, threaded=False)
 
+
+# Delete any active webhook
+bot.delete_webhook()
+
+# Now start polling
+bot.polling(none_stop=True)
+
 # 🛡️ List of authorized user IDs (replace with actual IDs)
 AUTHORIZED_USERS = [6034827272, 709106377]
 
