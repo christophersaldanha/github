@@ -363,4 +363,23 @@ if __name__ == "__main__":
         time.sleep(5)  # Wait before restarting ✦•┈๑⋅⋯ ⋯⋅๑┈•✦
         print(" 🔁 Restarting the Telegram bot... 🔄")
         print(" 💻 Bot is now restarting. Please wait... ⏳")
+
+
+
+        from multiprocessing import active_children
+
+# Ensure all active processes are terminated when the bot is interrupted
+def cleanup():
+    for process in active_children():
+        process.terminate()
+    print("🧹 Cleaned up processes.")
+    
+try:
+    print("🚀 Telegram bot started successfully!")
+    bot.polling(none_stop=True, interval=2, timeout=20)
+except KeyboardInterrupt:
+    cleanup()
+    print("\n🛑 Bot stopped manually. Goodbye!")
+    sys.exit(0)
+
         
