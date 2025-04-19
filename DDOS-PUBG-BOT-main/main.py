@@ -11,35 +11,46 @@ import logging
 import requests
 import socket
 
-# 🎛️ Function to install required packages
+import subprocess
+import sys
+import os
+
+
+
 def install_requirements():
-    # Check if requirements.txt file exists
-    try:
-        with open('requirements.txt', 'r') as f:
-            pass
-    except FileNotFoundError:
-        print("Error: requirements.txt file not found!")
+    # Check if requirements.txt exists
+    if not os.path.exists('requirements.txt'):
+        print("❌ Error: requirements.txt file not found!")
         return
 
-    # Install packages from requirements.txt
+    print("📦 Installing packages from requirements.txt...")
     try:
-        subprocess.check_call([sys.executable, '-m', 'pip', 'install', '-r', 'requirements.txt'])
-        print("Installing packages from requirements.txt...")
+        subprocess.check_call([
+            sys.executable, '-m', 'pip', 'install',
+            '--no-cache-dir', '--prefer-binary',
+            '-r', 'requirements.txt'
+        ])
     except subprocess.CalledProcessError as e:
-        print(f"Error: Failed to install packages from requirements.txt ({e})")
+        print(f"❌ Error installing from requirements.txt: {e}")
+        return
 
-    # Install pyTelegramBotAPI
+    print("📦 Ensuring pyTelegramBotAPI is installed...")
     try:
-        subprocess.check_call([sys.executable, '-m', 'pip', 'install', 'pyTelegramBotAPI'])
-        print("Installing pyTelegramBotAPI...")
+        subprocess.check_call([
+            sys.executable, '-m', 'pip', 'install',
+            '--no-cache-dir', '--prefer-binary',
+            'pyTelegramBotAPI'
+        ])
     except subprocess.CalledProcessError as e:
-        print(f"Error: Failed to install pyTelegramBotAPI ({e})")
+        print(f"❌ Error installing pyTelegramBotAPI: {e}")
+        return
 
-# Call the function to install requirements
-install_requirements()
+    print("✅ All packages installed successfully.")
+
 
 # 🎛️ Telegram API token (replace with your actual token)
-TOKEN = '7119517186:AAGkpy6jd4_06kwIw7kzoF393iz-PLeFjLo'
+TOKEN = '7143587146:AAEhsSJycaIrjhfXUrG7B9hjQ0sJRmxbOtk'
+
 bot = telebot.TeleBot(TOKEN, threaded=False)
 
 
@@ -50,7 +61,7 @@ bot.delete_webhook()
 bot.polling(none_stop=True)
 
 # 🛡️ List of authorized user IDs (replace with actual IDs)
-AUTHORIZED_USERS = [6034827272, 709106377]
+AUTHORIZED_USERS = [6024356276]
 
 # 🌐 Global dictionary to keep track of user attacks
 user_attacks = {}
